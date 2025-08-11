@@ -1,3 +1,4 @@
+![evil docker logo](assets/evildocker.png)
 # Evil Whale
 Execute commands inside of docker containers remotely.
 
