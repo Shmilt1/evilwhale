@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func pullImage(host string, image string) {
+func pullImage(host, image string) {
 	response, err := http.Post(host+"/images/create?fromImage="+image, "application/json", nil)
 	if err != nil {
 		log.Fatalln(err)
@@ -24,7 +24,7 @@ func pullImage(host string, image string) {
 	log.Println(string(data))
 }
 
-func CreateContainer(host string, image string) (string, error) {
+func CreateContainer(host, image string) (string, error) {
 	jsonData, err := json.Marshal(map[string]string{
 		"Image": image,
 	})
@@ -57,4 +57,8 @@ func CreateContainer(host string, image string) (string, error) {
 	}
 
 	return jsonResp["Id"], nil
+}
+
+func Exec(host, id string) {
+
 }
