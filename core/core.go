@@ -25,11 +25,9 @@ func pullImage(host string, image string) {
 }
 
 func CreateContainer(host string, image string) (string, error) {
-	data := map[string]string{
+	jsonData, err := json.Marshal(map[string]string{
 		"Image": image,
-	}
-
-	jsonData, err := json.Marshal(data)
+	})
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -44,7 +42,7 @@ func CreateContainer(host string, image string) (string, error) {
 	case 404:
 		pullImage(host, image)
 	case 400, 409, 500:
-		return "", errors.New("something went wrong")
+		return "", errors.New("error code " + response.Status)
 	}
 
 	respData, err := io.ReadAll(response.Body)
@@ -52,11 +50,11 @@ func CreateContainer(host string, image string) (string, error) {
 		log.Fatalln(err)
 	}
 
-	var result map[string]string
-	err = json.Unmarshal(respData, &result)
+	var jsonResp map[string]string
+	err = json.Unmarshal(respData, &jsonResp)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	return result["Id"], nil
+	return jsonResp["Id"], nil
 }
