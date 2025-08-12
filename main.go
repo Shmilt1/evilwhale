@@ -12,6 +12,8 @@ func main() {
 	cmd := flag.String("c", "", "Set the command to be executed")
 	ping := flag.Bool("p", false, "Ping the host")
 
+	flag.Parse()
+
 	if *ping {
 		if core.Ping(*host) {
 			log.Println("Host is alive!")
