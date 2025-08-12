@@ -126,13 +126,13 @@ func CreateExecInstance(host, id, cmd string) (string, error) {
 		log.Fatalln(err)
 	}
 
-	var m map[string]any
+	var m map[string]string
 	err = json.Unmarshal(data, &m)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	return m["Id"].(string), nil
+	return m["Id"], nil
 }
 
 func StartExec(host, id string) error {
