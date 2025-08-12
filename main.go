@@ -7,10 +7,11 @@ import (
 )
 
 func main() {
-	host := flag.String("h", "127.0.0.1:2375", "Set the host")
-	image := flag.String("i", "", "Set the docker image to be used")
-	cmd := flag.String("c", "", "Set the command to be executed")
-	ping := flag.Bool("p", false, "Ping the host")
+	host := flag.String("host", "http://127.0.0.1:2375", "Set the host")
+	image := flag.String("image", "", "Set the docker image to be used")
+	cmd := flag.String("cmd", "", "Set the command to be executed")
+	ping := flag.Bool("ping", false, "Ping the host")
+	pull := flag.Bool("pull", false, "Pull down an image")
 
 	flag.Parse()
 
@@ -38,5 +39,10 @@ func main() {
 		}
 
 		core.GetContainerLogs(*host, cid)
+	}
+
+	if *pull {
+		core.PullImage(*host, *image)
+		return
 	}
 }

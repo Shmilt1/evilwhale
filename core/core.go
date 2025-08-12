@@ -22,7 +22,7 @@ func Ping(host string) bool {
 	return false
 }
 
-func pullImage(host, image string) {
+func PullImage(host, image string) {
 	response, err := http.Post(host+"/images/create?fromImage="+image, "application/json", nil)
 	if err != nil {
 		log.Fatalln(err)
@@ -77,9 +77,7 @@ func CreateContainer(host, image string) (string, error) {
 	defer response.Body.Close()
 
 	switch response.StatusCode {
-	case 404:
-		pullImage(host, image)
-	case 400, 409, 500:
+	case 400, 404, 409, 500:
 		return "", errors.New(http.StatusText(response.StatusCode))
 	}
 
